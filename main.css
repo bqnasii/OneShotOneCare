@@ -1,0 +1,118 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+header {
+  background-color: #0275d8;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+main {
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  border-radius: 10px;
+}
+.btn-row {
+  display: flex;
+  gap: 1rem; /* optional: space between buttons */
+  justify-content: space-between; /* or center */
+  align-items: center;
+}
+.btn-front {
+  display: block;
+  width: 50%;
+  margin: 1rem 0;
+  padding: 1rem;
+  font-size: 1rem;
+  text-align: center;
+  background-color: rgb(57, 13, 37);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-back {
+  display: block;
+  width: 50%;
+  margin: 1rem 0;
+  padding: 1rem;
+  font-size: 1rem;
+  text-align: center;
+  background-color: rgb(27, 26, 60);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn {
+    display: block;
+    width: 50%;
+    margin: 1rem 0;
+    padding: 1rem;
+    font-size: 1rem;
+    text-align: center;
+    background-color: #0275d8;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .btn-capture {
+    display: block;
+    width: 50%;
+    margin: 1rem 0;
+    padding: 1rem;
+    font-size: 1rem;
+    text-align: center;
+    background-color: hwb(73 2% 66%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  #label-container div {
+    font-size: 28px;
+    margin: 5px 0;
+  }
+  #webcam-container {
+    align-items: center;
+  }
+
+footer {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    float: left;
+    width: 50%;
+    text-align: center;
+}
+  
+li a {
+    display: block;
+    padding: 8px;
+    background-color: #dddddd;
+}
