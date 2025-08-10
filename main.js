@@ -3,8 +3,14 @@ let model, labelContainer, maxPredictions;
 let currentStream = null;
 let scanningInterval = null;
 let isFrozen = false;
-let lastSpokenLabel = "";
+let lastSpokenLabel = ""; // ✅ ป้องกันการพูดซ้ำ
 
+// ✅ ฟังก์ชันพูดชื่อโรค
+function speak(text) {
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'th-TH'; // ภาษาไทย
+  speechSynthesis.speak(utterance);
+}
 
 // โหลดโมเดล Teachable Machine
 async function loadModel() {
@@ -63,13 +69,7 @@ function switchCamera(mode) {
   init(mode);
 }
 
-// วิเคราะห์ภาพจากวิดีโอแบบเรียลไทม์
-function speak(text) {
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = 'th-TH'; // เปลี่ยนเป็น 'en-US' ถ้าอยากให้พูดอังกฤษ
-  speechSynthesis.speak(utterance);
-}
-
+// วิเคราะห์ภาพจากวิดีโอแบบเรียลไทม์ พร้อมพูดชื่อโรค
 async function startScanning(video) {
   labelContainer = document.getElementById("label-container");
 
@@ -89,8 +89,10 @@ async function startScanning(video) {
       labelContainer.appendChild(div);
     });
 
-    // 🔊 พูดเฉพาะ label ที่มั่นใจสูงสุด
-    const topPrediction = prediction.reduce((a, b) => (a.probability > b.probability ? a : b));
+    // ✅ พูดชื่อโรคที่มั่นใจสูงสุด ถ้าเปลี่ยนจากครั้งก่อน
+    const topPrediction = prediction.reduce((a, b) =>
+      a.probability > b.probability ? a : b
+    );
     const confidence = (topPrediction.probability * 100).toFixed(2);
 
     if (confidence >= 70 && topPrediction.className !== lastSpokenLabel) {
@@ -100,7 +102,6 @@ async function startScanning(video) {
 
   }, 1000);
 }
-
 
 // ถ่ายภาพและหยุดวิเคราะห์
 function captureImage() {
