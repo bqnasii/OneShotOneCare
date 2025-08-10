@@ -1,52 +1,32 @@
 let currentStream = null;
 
-// สลับกล้อง
+// สลับกล้องหน้า/หลัง
 function switchCamera(facingMode) {
-  if (currentStream) {
-    currentStream.getTracks().forEach(track => track.stop());
-  }
+  stopWebcam();
+  init(facingMode);
+}
+
+// เริ่มเปิดกล้อง
+async function init(facingMode = 'environment') {
   const constraints = {
-    video: { facingMode: facingMode }
+    video: { facingMode: { exact: facingMode } },
+    audio: false,
   };
-  navigator.mediaDevices.getUserMedia(constraints)
-    .then(stream => {
-      currentStream = stream;
-      const videoContainer = document.getElementById('webcam-container');
-      videoContainer.innerHTML = ''; // เคลียร์ก่อน
-      const video = document.createElement('video');
-      video.autoplay = true;
-      video.srcObject = stream;
-      videoContainer.appendChild(video);
-    })
-    .catch(err => {
-      alert('ไม่สามารถเปิดกล้องได้: ' + err.message);
-    });
-}
 
-// เริ่มสแกน (เปิดกล้องโดย default)
-function init() {
-  switchCamera('environment'); // เริ่มด้วยกล้องหลัง (เปลี่ยนได้)
-}
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia(constraints);
+    currentStream = stream;
 
-// ถ่ายภาพจากวิดีโอ
-function captureImage() {
-  const video = document.querySelector('#webcam-container video');
-  if (!video) {
-    alert('กล้องยังไม่เปิด');
-    return;
+    const videoContainer = document.getElementById('webcam-container');
+    videoContainer.innerHTML = ''; // ล้างของเก่า
+    const video = document.createElement('video');
+    video.autoplay = true;
+    video.playsInline = true;
+    video.srcObject = stream;
+    videoContainer.appendChild(video);
+  } catch (err) {
+    alert('ไม่สามารถเปิดกล้องได้: ' + err.message);
   }
-  const canvas = document.createElement('canvas');
-  canvas.width = video.videoWidth;
-  canvas.height = video.videoHeight;
-  const ctx = canvas.getContext('2d');
-  ctx.drawImage(video, 0, 0);
-  const imageDataUrl = canvas.toDataURL('image/png');
-
-  // แสดงภาพ หรือประมวลผลต่อ
-  alert('ถ่ายภาพสำเร็จ!');
-  // หรือแสดงใน #label-container
-  const labelContainer = document.getElementById('label-container');
-  labelContainer.innerHTML = `<img src="${imageDataUrl}" alt="captured image" style="max-width: 100%;">`;
 }
 
 // หยุดกล้อง
@@ -55,30 +35,62 @@ function stopWebcam() {
     currentStream.getTracks().forEach(track => track.stop());
     currentStream = null;
   }
-  document.getElementById('webcam-container').innerHTML = '';
-  document.getElementById('label-container').innerHTML = '';
+  const videoContainer = document.getElementById('webcam-container');
+  videoContainer.innerHTML = '';
 }
 
-// แสดงข้อมูลโรคตามชื่อ
+// ถ่ายภาพจากวิดีโอ (ตัวอย่างง่าย)
+function captureImage() {
+  const video = document.querySelector('#webcam-container video');
+  if (!video) {
+    alert('กรุณาเปิดกล้องก่อนถ่ายภาพ');
+    return;
+  }
+
+  const canvas = document.createElement('canvas');
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+
+  const ctx = canvas.getContext('2d');
+  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+  // แสดงภาพที่ถ่าย (เปิดหน้าต่างใหม่ หรือใส่ในหน้าก็ได้)
+  const dataUrl = canvas.toDataURL('image/png');
+  window.open(dataUrl, '_blank');
+}
+
+// แสดงข้อมูลโรค
 function showDisease(diseaseName) {
   const diseaseInfo = document.getElementById('disease-info');
   const diseaseContent = document.getElementById('disease-content');
+  const scanSection = document.querySelector('.scan-section');
+  const diseaseList = document.querySelector('.disease-list');
 
-  // ตัวอย่างข้อมูล (เติมรายละเอียดจริงได้)
   const diseases = {
-    'ติดเชื้อแบคทีเรีย': 'ข้อมูลโรคติดเชื้อแบคทีเรีย...',
-    'ตุ่มนูนแดงบวม': 'ข้อมูลตุ่มนูนแดงบวมจากแมลง...',
-    'ตุ่มน้ำพอง': 'ข้อมูลตุ่มน้ำพอง...',
-    // ... เพิ่มข้อมูลโรคอื่น ๆ ตามต้องการ
+    'ติดเชื้อแบคทีเรีย': 'โรคติดเชื้อแบคทีเรียคือการติดเชื้อที่เกิดจากแบคทีเรีย อาจมีอาการบวม แดง และเจ็บปวดบริเวณบาดแผล',
+    'ตุ่มนูนแดงบวม': 'ตุ่มนูนแดงบวมจากแมลงเกิดจากการกัดหรือสัมผัสกับแมลง ทำให้เกิดผื่นแดงและบวม',
+    'ตุ่มน้ำพอง': 'ตุ่มน้ำพองเป็นผื่นที่มีลักษณะเป็นตุ่มน้ำใส ซึ่งอาจเกิดจากการแพ้หรือการติดเชื้อ',
+    'ผิวไหม้แดด': 'ผิวไหม้แดดเกิดจากการถูกแสงแดดเผา ทำให้ผิวหนังแดงและเจ็บ',
+    'ผื่นจากเหงื่อ': 'ผื่นจากเหงื่อเกิดจากการสะสมของเหงื่อในผิวหนัง ทำให้เกิดผื่นแดงและคัน',
+    'ผื่นลมพิษ': 'ผื่นลมพิษเป็นผื่นที่มีลักษณะเป็นตุ่มนูนสีแดงหรือชมพู มักเกิดจากการแพ้',
+    'ผื่นแพ้สารเคมี': 'ผื่นแพ้สารเคมีเกิดจากการสัมผัสสารเคมีที่ทำให้เกิดการระคายเคืองหรือแพ้',
+    'ผื่นแพ้สิ่งแวดล้อม': 'ผื่นแพ้สิ่งแวดล้อมเกิดจากปัจจัยภายนอก เช่น ฝุ่น หรือสารก่อภูมิแพ้',
+    'ผื่นแพ้แดด': 'ผื่นแพ้แดดเกิดจากการแพ้แสงแดด ทำให้ผิวหนังเป็นผื่นแดง',
+    'พยาธิปรสิต': 'พยาธิปรสิตในบาดแผลอาจทำให้เกิดการติดเชื้อและอาการอักเสบ',
+    'แผลเชื้อรา': 'แผลเชื้อราเกิดจากการติดเชื้อราที่ผิวหนัง ทำให้เกิดผื่นลอกและคัน',
+    'แมลงกัดต่อย': 'แมลงกัดต่อยทำให้เกิดแผลบวมแดงและเจ็บปวด',
+    'โรคน้ำกัดเท้า': 'โรคน้ำกัดเท้าเกิดจากการติดเชื้อบริเวณเท้า เนื่องจากความชื้น',
+    'โรคเนื้อเน่า': 'โรคเนื้อเน่าเป็นการติดเชื้อที่ทำลายเนื้อเยื่อรุนแรง ต้องได้รับการรักษาอย่างเร่งด่วน',
+    'ไข้รากสาดใหญ่': 'ไข้รากสาดใหญ่เป็นโรคติดเชื้อที่มีไข้สูงและผื่นตามร่างกาย',
   };
 
   diseaseContent.textContent = diseases[diseaseName] || 'ข้อมูลโรคไม่พบ';
   diseaseInfo.style.display = 'block';
-  document.querySelector('.scan-section').style.display = 'none';
-  document.querySelector('.disease-list').style.display = 'none';
+  scanSection.style.display = 'none';
+  diseaseList.style.display = 'none';
 }
 
-// กลับไปหน้าสแกน
+// กลับไปหน้า scan
 function backToScan() {
   document.getElementById('disease-info').style.display = 'none';
   document.querySelector('.scan-section').style.display = 'block';
