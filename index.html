@@ -2,15 +2,13 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ระบบตรวจสอบ และวิเคราะห์บาดแผล</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-  <link href="main.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <link href="main.css" rel="stylesheet" />
 </head>
 <body>
-  <header>
-    ระบบตรวจสอบ และวิเคราะห์บาดแผล V3.0
-  </header>
+  <header>ระบบตรวจสอบ และวิเคราะห์บาดแผล V3.0</header>
 
   <main>
     <div class="camera-controls">
@@ -31,40 +29,35 @@
       <div id="label-container"></div>
     </div>
 
-    <!-- ข้อมูลโรคที่จะแสดงเมื่อมีผลการวิเคราะห์ -->
-    <div id="disease-info" class="disease-info" style="display: none;">
+    <div id="disease-info" class="disease-info" style="display:none;">
       <button class="back-btn" onclick="backToScan()">🔙 ย้อนกลับ</button>
       <div id="disease-content"></div>
     </div>
 
-    <!-- รายการโรคทั้งหมด -->
     <div class="disease-list">
       <h3>โรคที่สามารถตรวจสอบได้</h3>
       <ul>
-        <li><a href="#" onclick="showDisease('ติดเชื้อแบคทีเรีย')">ติดเชื้อแบคทีเรีย</a></li>
-        <li><a href="#" onclick="showDisease('ตุ่มนูนแดงบวม')">ตุ่มนูนแดงบวมจากแมลง</a></li>
-        <li><a href="#" onclick="showDisease('ตุ่มน้ำพอง')">ตุ่มน้ำพอง</a></li>
-        <li><a href="#" onclick="showDisease('ผิวไหม้แดด')">ผิวไหม้แดด</a></li>
-        <li><a href="#" onclick="showDisease('ผื่นจากเหงื่อ')">ผื่นจากเหงื่อ</a></li>
-        <li><a href="#" onclick="showDisease('ผื่นลมพิษ')">ผื่นลมพิษ</a></li>
-        <li><a href="#" onclick="showDisease('ผื่นแพ้สารเคมี')">ผื่นแพ้สารเคมี</a></li>
-        <li><a href="#" onclick="showDisease('ผื่นแพ้สิ่งแวดล้อม')">ผื่นแพ้สิ่งแวดล้อม</a></li>
-        <li><a href="#" onclick="showDisease('ผื่นแพ้แดด')">ผื่นแพ้แดด</a></li>
-        <li><a href="#" onclick="showDisease('พยาธิปรสิต')">พยาธิปรสิต</a></li>
-        <li><a href="#" onclick="showDisease('แผลเชื้อรา')">แผลเชื้อรา</a></li>
-        <li><a href="#" onclick="showDisease('แมลงกัดต่อย')">แมลงกัดต่อย</a></li>
-        <li><a href="#" onclick="showDisease('โรคน้ำกัดเท้า')">โรคน้ำกัดเท้า</a></li>
-        <li><a href="#" onclick="showDisease('โรคเนื้อเน่า')">โรคเนื้อเน่า</a></li>
-        <li><a href="#" onclick="showDisease('ไข้รากสาดใหญ่')">โรคไข้รากสาดใหญ่</a></li>
+        <li><a href="#" onclick="showDisease('ติดเชื้อแบคทีเรีย'); return false;">ติดเชื้อแบคทีเรีย</a></li>
+        <li><a href="#" onclick="showDisease('ตุ่มนูนแดงบวม'); return false;">ตุ่มนูนแดงบวมจากแมลง</a></li>
+        <li><a href="#" onclick="showDisease('ตุ่มน้ำพอง'); return false;">ตุ่มน้ำพอง</a></li>
+        <li><a href="#" onclick="showDisease('ผิวไหม้แดด'); return false;">ผิวไหม้แดด</a></li>
+        <li><a href="#" onclick="showDisease('ผื่นจากเหงื่อ'); return false;">ผื่นจากเหงื่อ</a></li>
+        <li><a href="#" onclick="showDisease('ผื่นลมพิษ'); return false;">ผื่นลมพิษ</a></li>
+        <li><a href="#" onclick="showDisease('ผื่นแพ้สารเคมี'); return false;">ผื่นแพ้สารเคมี</a></li>
+        <li><a href="#" onclick="showDisease('ผื่นแพ้สิ่งแวดล้อม'); return false;">ผื่นแพ้สิ่งแวดล้อม</a></li>
+        <li><a href="#" onclick="showDisease('ผื่นแพ้แดด'); return false;">ผื่นแพ้แดด</a></li>
+        <li><a href="#" onclick="showDisease('พยาธิปรสิต'); return false;">พยาธิปรสิต</a></li>
+        <li><a href="#" onclick="showDisease('แผลเชื้อรา'); return false;">แผลเชื้อรา</a></li>
+        <li><a href="#" onclick="showDisease('แมลงกัดต่อย'); return false;">แมลงกัดต่อย</a></li>
+        <li><a href="#" onclick="showDisease('โรคน้ำกัดเท้า'); return false;">โรคน้ำกัดเท้า</a></li>
+        <li><a href="#" onclick="showDisease('โรคเนื้อเน่า'); return false;">โรคเนื้อเน่า</a></li>
+        <li><a href="#" onclick="showDisease('ไข้รากสาดใหญ่'); return false;">โรคไข้รากสาดใหญ่</a></li>
       </ul>
     </div>
   </main>
 
-  <footer>
-    © 2025 BQ | Terms | Privacy Policy
-  </footer>
+  <footer>© 2025 BQ | Terms | Privacy Policy</footer>
 
-  <!-- เชื่อม script -->
   <script src="main.js"></script>
 </body>
 </html>
