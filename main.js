@@ -1,12 +1,32 @@
+const URL = "https://teachablemachine.withgoogle.com/models/nGMPLQljN/";
+let model, labelContainer, maxPredictions;
 let currentStream = null;
 let scanningInterval = null;
 let isFrozen = false;
 
-const URL = "https://teachablemachine.withgoogle.com/models/nGMPLQljN/";
+// โหลดโมเดล Teachable Machine
+async function loadModel() {
+  const modelURL = URL + "model.json";
+  const metadataURL = URL + "metadata.json";
 
-// เปิดกล้อง
+  model = await tmImage.load(modelURL, metadataURL);
+  maxPredictions = model.getTotalClasses();
+
+  labelContainer = document.getElementById("label-container");
+  labelContainer.innerHTML = "";
+  for (let i = 0; i < maxPredictions; i++) {
+    const div = document.createElement("div");
+    div.className = "prediction";
+    labelContainer.appendChild(div);
+  }
+
+  console.log("✅ โหลดโมเดลสำเร็จ");
+}
+
+// เริ่มเปิดกล้องและโหลดโมเดล
 async function init(facingMode = 'environment') {
-  stopWebcam(); // ปิดกล้องเดิมก่อน
+  await loadModel(); // โหลดโมเดลก่อน
+  stopWebcam();
   isFrozen = false;
 
   const constraints = {
@@ -41,22 +61,27 @@ function switchCamera(mode) {
   init(mode);
 }
 
-// เริ่มสแกนแบบ real-time
-function startScanning(video) {
-  const labelContainer = document.getElementById('label-container');
-  scanningInterval = setInterval(() => {
-    if (isFrozen) return;
+// วิเคราะห์ภาพจากวิดีโอแบบเรียลไทม์
+async function startScanning(video) {
+  labelContainer = document.getElementById("label-container");
 
-    //สุ่มเปอร์เซ็นต์ 
-    const confidence = Math.floor(Math.random() * 101);
+  scanningInterval = setInterval(async () => {
+    if (isFrozen || !model) return;
 
-    labelContainer.innerHTML = `<span style="color:${getConfidenceColor(confidence)};">
-      Confidence: ${confidence}%
-    </span>`;
-  }, 500);
+    const prediction = await model.predict(video);
+
+    labelContainer.innerHTML = "";
+    prediction.forEach(p => {
+      const percent = (p.probability * 100).toFixed(2);
+      const div = document.createElement("div");
+      div.className = "prediction";
+      div.innerHTML = `${p.className}: <strong>${percent}%</strong>`;
+      labelContainer.appendChild(div);
+    });
+  }, 1000);
 }
 
-// กดถ่ายภาพ
+// ถ่ายภาพและหยุดวิเคราะห์
 function captureImage() {
   if (isFrozen) return;
   const video = document.querySelector('#webcam-container video');
