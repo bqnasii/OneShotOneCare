@@ -8,7 +8,8 @@
   <link href="main.css" rel="stylesheet" />
 </head>
 <body>
-  <!-- ✅ ปุ่มย้อนกลับ: อยู่มุมซ้ายบน -->
+
+  <!-- ✅ ปุ่มย้อนกลับไปหน้าแรก -->
   <a href="index.html" style="
     position: fixed;
     top: 20px;
@@ -22,11 +23,13 @@
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     z-index: 1000;
   ">🔙 ย้อนกลับ</a>
+
   <header>
     ระบบตรวจสอบ และวิเคราะห์บาดแผล V3.0
   </header>
 
   <main>
+    <!-- ปุ่มเลือกกล้อง -->
     <div class="btn-row">
       <ul>
         <li><a href="front.html">📸 กล้องหน้า</a></li>
@@ -34,20 +37,19 @@
       </ul>
     </div>
 
-    <br /><br />
-
     <h2>🔍 วิเคราะห์บาดแผล</h2>
 
+    <!-- ปุ่มกล้อง -->
     <div class="btn-row">
-      <!-- Start Camera button -->
       <button class="btn" onclick="init()">สแกน</button>
-      <!-- Stop Camera button -->
       <button class="btn-capture" onclick="stopWebcam()">📸 เก็บภาพ</button>
     </div>
 
+    <!-- กล้องและผลลัพธ์ -->
     <div id="webcam-container"></div>
     <div id="label-container"></div>
 
+    <!-- รายการโรคที่ตรวจได้ -->
     <ul>
       <li><a href="ติดเชื้อแบคทีเรีย.html">ติดเชื้อแบคทีเรีย</a></li>
       <li><a href="ตุ่มนูนแดงบวม.html">ตุ่มนูนแดงบวมจากแมลง</a></li>
@@ -71,6 +73,7 @@
     © 2025 BQ | Terms | Privacy Policy
   </footer>
 
+  <!-- JS เชื่อมกับ Teachable Machine -->
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
   <script type="text/javascript">
@@ -86,9 +89,8 @@
       model = await tmImage.load(modelURL, metadataURL);
       maxPredictions = model.getTotalClasses();
 
-      let cameraSelect = "user"; // Front Camera
-
       const flip = true;
+      const cameraSelect = "user";
       let width = Math.min(window.innerWidth * 0.95, 400);
       let height = width;
 
@@ -101,6 +103,7 @@
       document.getElementById("webcam-container").appendChild(webcam.canvas);
       labelContainer = document.getElementById("label-container");
       labelContainer.innerHTML = "";
+
       for (let i = 0; i < maxPredictions; i++) {
         labelContainer.appendChild(document.createElement("div"));
       }
@@ -159,5 +162,6 @@
       }
     }
   </script>
+
 </body>
 </html>
