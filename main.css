@@ -1,118 +1,309 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   font-family: 'Roboto', sans-serif;
-  margin: 0;
-  background-color: #f9f9f9;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
   color: #333;
 }
 
 header {
-  background-color: #0275d8;
-  color: white;
-  padding: 1rem;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 20px;
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 24px;
+  font-weight: 700;
+  color: #2c3e50;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 main {
-  max-width: 400px;
-  margin: 2rem auto;
-  padding: 1rem;
-  background-color: white;
-  box-shadow: 0 0 10px rgba(0,0,0,0.05);
-  border-radius: 10px;
-}
-.btn-row {
-  display: flex;
-  gap: 1rem; /* optional: space between buttons */
-  justify-content: space-between; /* or center */
-  align-items: center;
-}
-.btn-front {
-  display: block;
-  width: 50%;
-  margin: 1rem 0;
-  padding: 1rem;
-  font-size: 1rem;
-  text-align: center;
-  background-color: rgb(57, 13, 37);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-.btn-back {
-  display: block;
-  width: 50%;
-  margin: 1rem 0;
-  padding: 1rem;
-  font-size: 1rem;
+.camera-controls {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+
+.camera-link {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 12px 20px;
+  border-radius: 15px;
+  text-decoration: none;
+  color: #2c3e50;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.camera-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+  background: white;
+}
+
+.scan-section {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 30px;
+  margin: 20px 0;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+.scan-section h2 {
   text-align: center;
-  background-color: rgb(27, 26, 60);
+  margin-bottom: 25px;
+  color: #2c3e50;
+  font-size: 28px;
+}
+
+.btn-row {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+
+.btn, .btn-capture, .btn-stop {
   color: white;
   border: none;
-  border-radius: 8px;
+  padding: 15px 30px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 500;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .btn {
-    display: block;
-    width: 50%;
-    margin: 1rem 0;
-    padding: 1rem;
-    font-size: 1rem;
-    text-align: center;
-    background-color: #0275d8;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-  }
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
 
-  .btn-capture {
-    display: block;
-    width: 50%;
-    margin: 1rem 0;
-    padding: 1rem;
-    font-size: 1rem;
-    text-align: center;
-    background-color: hwb(73 2% 66%);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-  }
-  
-  #label-container div {
-    font-size: 28px;
-    margin: 5px 0;
-  }
-  #webcam-container {
-    align-items: center;
-  }
+.btn-capture {
+  background: linear-gradient(135deg, #2196F3, #1976D2);
+  box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+}
+
+.btn-stop {
+  background: linear-gradient(135deg, #f44336, #d32f2f);
+  box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3);
+}
+
+.btn:hover, .btn-capture:hover, .btn-stop:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+#webcam-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+#webcam-container canvas {
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  max-width: 100%;
+  height: auto;
+}
+
+#label-container {
+  margin-top: 20px;
+}
+
+#label-container > div {
+  margin: 15px 0;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.disease-info {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 30px;
+  margin: 30px 0;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  display: none;
+}
+
+.disease-info.active {
+  display: block;
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.disease-info h3 {
+  color: #e74c3c;
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.disease-info p {
+  line-height: 1.8;
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+
+.disease-info .symptoms,
+.disease-info .treatment {
+  background: rgba(52, 152, 219, 0.1);
+  padding: 20px;
+  border-radius: 12px;
+  margin: 15px 0;
+  border-left: 4px solid #3498db;
+}
+
+.disease-info .symptoms h4,
+.disease-info .treatment h4 {
+  color: #3498db;
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.disease-info ul {
+  margin: 10px 0;
+  padding-left: 20px;
+}
+
+.disease-info li {
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+
+.back-btn {
+  background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
 
 footer {
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
   text-align: center;
-  margin-top: 2rem;
-  font-size: 0.9rem;
-  color: #666;
+  padding: 20px;
+  margin-top: 50px;
 }
 
-
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
+.disease-list {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 30px;
+  margin: 20px 0;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
 }
 
-li {
-    float: left;
-    width: 50%;
-    text-align: center;
+.disease-list h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #2c3e50;
 }
+
+.disease-list ul {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 10px;
+}
+
+.disease-list li a {
+  display: block;
+  padding: 12px 16px;
+  background: rgba(52, 152, 219, 0.1);
+  color: #2c3e50;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  border-left: 4px solid #3498db;
+}
+
+.disease-list li a:hover {
+  background: rgba(52, 152, 219, 0.2);
+  transform: translateX(5px);
+}
+
+.high-probability {
+  background: rgba(231, 76, 60, 0.1) !important;
+  border-left: 4px solid #e74c3c !important;
+  font-weight: bold;
+}
+
+.high-probability .disease-name {
+  color: #e74c3c;
+  font-size: 18px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  header {
+    font-size: 20px;
+    padding: 15px;
+  }
   
-li a {
-    display: block;
-    padding: 8px;
-    background-color: #dddddd;
+  main {
+    padding: 15px;
+  }
+  
+  .scan-section {
+    padding: 20px;
+  }
+  
+  .btn-row {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .btn, .btn-capture, .btn-stop {
+    width: 200px;
+  }
+  
+  .disease-list ul {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Loading animation */
+.loading {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
