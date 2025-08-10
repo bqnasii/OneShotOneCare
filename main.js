@@ -3,6 +3,8 @@ let model, labelContainer, maxPredictions;
 let currentStream = null;
 let scanningInterval = null;
 let isFrozen = false;
+let lastSpokenLabel = "";
+
 
 // โหลดโมเดล Teachable Machine
 async function loadModel() {
@@ -62,6 +64,12 @@ function switchCamera(mode) {
 }
 
 // วิเคราะห์ภาพจากวิดีโอแบบเรียลไทม์
+function speak(text) {
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'th-TH'; // เปลี่ยนเป็น 'en-US' ถ้าอยากให้พูดอังกฤษ
+  speechSynthesis.speak(utterance);
+}
+
 async function startScanning(video) {
   labelContainer = document.getElementById("label-container");
 
@@ -80,8 +88,19 @@ async function startScanning(video) {
                       </span>`;
       labelContainer.appendChild(div);
     });
+
+    // 🔊 พูดเฉพาะ label ที่มั่นใจสูงสุด
+    const topPrediction = prediction.reduce((a, b) => (a.probability > b.probability ? a : b));
+    const confidence = (topPrediction.probability * 100).toFixed(2);
+
+    if (confidence >= 70 && topPrediction.className !== lastSpokenLabel) {
+      speak(`ตรวจพบ ${topPrediction.className}`);
+      lastSpokenLabel = topPrediction.className;
+    }
+
   }, 1000);
 }
+
 
 // ถ่ายภาพและหยุดวิเคราะห์
 function captureImage() {
