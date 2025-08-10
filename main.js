@@ -75,7 +75,9 @@ async function startScanning(video) {
       const percent = (p.probability * 100).toFixed(2);
       const div = document.createElement("div");
       div.className = "prediction";
-      div.innerHTML = `${p.className}: <strong>${percent}%</strong>`;
+      div.innerHTML = `<span style="color:${getConfidenceColor(percent)};">
+                        ${p.className}: <strong>${percent}%</strong>
+                      </span>`;
       labelContainer.appendChild(div);
     });
   }, 1000);
@@ -119,6 +121,7 @@ function stopWebcam() {
 
 // กำหนดสีตามเปอร์เซ็นต์
 function getConfidenceColor(percent) {
+  percent = parseFloat(percent);
   if (percent < 10) return 'red';
   if (percent < 25) return 'orange';
   if (percent < 50) return 'yellow';
