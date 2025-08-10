@@ -2,6 +2,8 @@ let currentStream = null;
 let scanningInterval = null;
 let isFrozen = false;
 
+const URL = "https://teachablemachine.withgoogle.com/models/nGMPLQljN/";
+
 // เปิดกล้อง
 async function init(facingMode = 'environment') {
   stopWebcam(); // ปิดกล้องเดิมก่อน
