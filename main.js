@@ -38,7 +38,7 @@ async function init(facingMode = 'environment') {
   isFrozen = false;
 
   const constraints = {
-    video: { facingMode: { exact: facingMode } },
+    video: { facingMode: facingMode }, // ✅ แก้ตรงนี้: เอา exact ออก
     audio: false
   };
 
